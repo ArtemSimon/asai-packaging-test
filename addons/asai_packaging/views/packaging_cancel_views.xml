@@ -1,0 +1,31 @@
+<odoo>
+    <!-- Форма Wizard'а -->
+    <record model="ir.ui.view" id="view_packaging_cancel_form">
+        <field name="name">asai.packaging.cancel.form</field>
+        <field name="model">asai.packaging.cancel</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Cancellation">
+                <p class="text-danger">
+                    Are you sure you want to cancel this packaging order?
+                </p>
+                <group>
+                    <field name="cancel_cause" placeholder="Enter reason..." nolabel="0"/>
+                </group>
+                <footer>
+                    <button name="action_confirm_cancel" type="object" string="Confirm" class="btn-primary"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Действие окна для Wizard'а -->
+    <record id="action_packaging_cancel" model="ir.actions.act_window">
+        <field name="name">Cancel Order</field>
+        <field name="res_model">asai.packaging.cancel</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field> <!-- Открывает как модальное окно -->
+        <field name="binding_model_id" ref="asai_packaging.model_asai_packaging_order"/>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>
