@@ -1,0 +1,16 @@
+<odoo>
+    <menuitem id="menu_packaging_root" name="Packaging Control"/>
+
+    <menuitem id="menu_packaging_orders" name="Orders" parent="menu_packaging_root"/>
+
+    <record model="ir.actions.act_window" id="action_packaging_orders">
+        <field name="name">Packaging Orders</field>
+        <field name="res_model">asai.packaging.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_packaging_order_action"
+              name="Manage Orders"
+              parent="menu_packaging_orders"
+              action="action_packaging_orders"/>
+</odoo>

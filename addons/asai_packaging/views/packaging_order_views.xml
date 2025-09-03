@@ -1,0 +1,67 @@
+<odoo>
+    <!-- Форма упаковки -->
+    <record model="ir.ui.view" id="view_packaging_order_form">
+        <field name="name">asai.packaging.order.form</field>
+        <field name="model">asai.packaging.order</field>
+        <field name="arch" type="xml">
+            <form string="Packaging Order">
+                <header>
+                    <!-- Кнопка: Начать упаковку (видна только в статусе draft) -->
+                    <button name="action_start" type="object" string="Start Packing"
+                            invisible="status != 'draft'"/>
+
+                    <!-- Кнопка: Завершить упаковку (видна только если in_progress и всё упаковано) -->
+                    <button name="action_done" type="object" string="Finish Packing" class="btn-primary"
+                            invisible="status != 'in_progress' or not is_complete"/>
+
+                    <!-- Кнопка: Сбросить (видна только если не draft) -->
+                    <button name="action_reset" type="object" string="Reset" class="btn-secondary"
+                            invisible="status == 'draft'"/>
+                    
+                    <button name="action_open_cancel" type="object" string="Cancel Order" class="btn-danger"
+                            invisible="status in ('done', 'cancelled')"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="packer_name"/>
+                        <field name="status" widget="statusbar"/>
+                    </group>
+
+                    <div invisible="status != 'cancelled'">
+                        <h4>Cause for Cancellation:</h4>
+                        <field name="cancel_cause" readonly="1"/>
+                    </div>
+                    <notebook>
+                        <page string="Product Lines">
+                            <field name="detail_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="product_name"/>
+                                    <field name="dimensions"/>
+                                    <field name="qty_required"/>
+                                    <field name="qty_packed"/>
+                                    <button name="action_add_packed" type="object" string="+" icon="fa-plus"/>
+                                    <button name="action_remove_packed" type="object" string="-" icon="fa-minus"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Список заказов -->
+    <record model="ir.ui.view" id="view_packaging_order_tree">
+        <field name="name">asai.packaging.order.tree</field>
+        <field name="model">asai.packaging.order</field>
+        <field name="arch" type="xml">
+            <list string="Packaging Orders">
+                <field name="name"/>
+                <field name="packer_name"/>
+                <field name="status"/>
+                <field name="is_complete"/>
+            </list>
+        </field>
+    </record>
+</odoo>
