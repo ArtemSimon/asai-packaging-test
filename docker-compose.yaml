@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    env_file: ".env"
+    ports:
+      - 5433:5432
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+    networks:
+      dev_network:
+        aliases: [postgres]
+
+
+  odoo:
+    container_name: odoo
+    image: odoo:18.0
+    env_file: ".env"
+    ports:
+      - 8069:8069
+    volumes:
+      - ./addons:/mnt/extra-addons
+    depends_on:
+      - postgres
+    networks:
+      dev_network:
+        aliases: [odoo]
+    command: >
+      sh -c "
+      odoo --addons-path=/mnt/extra-addons
+      --db_host=postgres
+      --db_user=$POSTGRES_USER
+      --db_password=$POSTGRES_PASSWORD
+      --db_port=5432
+      -d $POSTGRES_DB
+      # -i base
+      "
+
+      # sh -c "
+      # odoo --addons-path=/mnt/extra-addons,--db_host=postgres --db_user=${POSTGRES_USER} --db_password=${POSTGRES_PASSWORD} --create-database=False
+      # "
+
+volumes:
+  postgres_volume:
+networks:
+  dev_network:
+    name: dev_network
