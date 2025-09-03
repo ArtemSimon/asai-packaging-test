@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_packaging_order,access_packaging_order,model_asai_packaging_order,,1,1,1,1
+access_packaging_detail,access_packaging_detail,model_asai_packaging_detail,,1,1,1,1
+access_packaging_cancel,access_packaging_cancel,model_asai_packaging_cancel,,1,1,1,1
