@@ -12,7 +12,7 @@
     """,
     'category': 'Inventory/Inventory',
     'author': 'Artem',
-    'depends': ['base'],
+    'depends': ['base','web'],
     'data': [
         'security/ir.model.access.csv',
         'views/packaging_order_views.xml',
