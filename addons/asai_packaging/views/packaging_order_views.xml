@@ -17,7 +17,8 @@
                     <!-- Кнопка: Сбросить (видна только если не draft) -->
                     <button name="action_reset" type="object" string="Reset" class="btn-secondary"
                             invisible="status == 'draft'"/>
-                    
+
+                    <!-- Кнопка: Отменить заказ -->
                     <button name="action_open_cancel" type="object" string="Cancel Order" class="btn-danger"
                             invisible="status in ('done', 'cancelled')"/>
                 </header>
@@ -27,6 +28,12 @@
                         <field name="packer_name"/>
                         <field name="status" widget="statusbar"/>
                     </group>
+
+                    <!-- Поле для ТСД -->
+                    <div class='alert alert info' style="margin: 10px 0;">
+                        <field name='scan_code' placeholder='Сканируйте QR-код...' autofocus="true"/>
+                        <button name='action_scan_code' type='object' string='Scan' class='btm-primary' nolabel="1"/>
+                    </div>
 
                     <div invisible="status != 'cancelled'">
                         <h4>Cause for Cancellation:</h4>
@@ -40,6 +47,8 @@
                                     <field name="dimensions"/>
                                     <field name="qty_required"/>
                                     <field name="qty_packed"/>
+                                    <field name="qty_scan_add"/>
+                                    <field name="qr_code"/>
                                     <button name="action_add_packed" type="object" string="+" icon="fa-plus"/>
                                     <button name="action_remove_packed" type="object" string="-" icon="fa-minus"/>
                                 </list>
@@ -52,7 +61,7 @@
     </record>
 
     <!-- Список заказов -->
-    <record model="ir.ui.view" id="view_packaging_order_tree">
+    <record model="ir.ui.view" id="view_packaging_order_list">
         <field name="name">asai.packaging.order.tree</field>
         <field name="model">asai.packaging.order</field>
         <field name="arch" type="xml">
