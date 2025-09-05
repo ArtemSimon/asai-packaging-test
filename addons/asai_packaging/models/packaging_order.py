@@ -1,4 +1,7 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
+import logging
+_logger = logging.getLogger(__name__)
 
 class PackagingOrder(models.Model):
     _name = 'asai.packaging.order'
@@ -14,6 +17,14 @@ class PackagingOrder(models.Model):
     ], default='draft', required=True)
 
     cancel_cause = fields.Text('Cancel Cause') # для текст для причины отмена заказа 
+
+    scan_code = fields.Char(
+        "Scan QR Code",
+        help="Сканируйте QR-код детали — система автоматически увеличит счётчик"
+    )
+
+
+
     detail_ids = fields.One2many(
         'asai.packaging.detail',
         'order_id',
@@ -67,3 +78,54 @@ class PackagingOrder(models.Model):
                 'default_order_id': self.id
             }
         }
+
+    def action_scan_code(self):
+        """Обработка скана QR Code"""
+        self.ensure_one()
+
+        _logger.info("✅ action_scan_code вызван")  # 🔍
+        _logger.info("Scan code: %s", self.scan_code)  # 🔍
+
+        _logger.info("Количество detail_ids: %s", len(self.detail_ids))
+        _logger.info("Сами детали: %s", self.detail_ids.ids)
+
+        if not self.scan_code:
+            _logger.warning("❌ scan_code пустой")  # 🔍
+            return
+        
+        detail = self.detail_ids.filtered(lambda d:d.qr_code == self.scan_code)
+
+        if not detail:
+            raise UserError(f'Деталь с QR-кодом {self.scan_code} не найдена')
+        
+        available_detail = detail.qty_required - detail.qty_packed
+        if available_detail <= 0:
+            raise UserError(
+                f'Нельзя упаковать {detail.qty_scan_add} шт. Осталось только {available_detail}'
+            )
+         # Проверяем, не превысит ли добавление лимит
+        if detail.qty_scan_add > available_detail:
+            raise UserError(
+                f'Нельзя упаковать {detail.qty_scan_add} шт. '
+                f'Максимум — {available_detail} шт.'
+        )
+
+        detail.qty_packed += detail.qty_scan_add
+        detail.write({'qty_packed': detail.qty_packed})  # явное сохранение
+        
+        self.scan_code = False
+
+        # Уведомление о упаковке
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Упаковка',
+                'message': f"{detail.product_name}: +{detail.qty_scan_add} шт. упаковано.",
+                'type': 'success',
+                'sticky': False,
+            }
+}, {
+    'type': 'ir.actions.client',
+    'tag': 'refresh'
+}
