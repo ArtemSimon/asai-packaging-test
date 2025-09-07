@@ -2,3 +2,5 @@ id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_packaging_order,access_packaging_order,model_asai_packaging_order,,1,1,1,1
 access_packaging_detail,access_packaging_detail,model_asai_packaging_detail,,1,1,1,1
 access_packaging_cancel,access_packaging_cancel,model_asai_packaging_cancel,,1,1,1,1
+access_import_wizard,access_import_wizard,model_asai_packaging_import_wizard,,1,1,1,0
+access_packer_report,access_packer_report,model_asai_packer_report,,1,0,0,0

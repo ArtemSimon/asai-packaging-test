@@ -101,48 +101,6 @@ class PackagingImport(models.TransientModel):
 
         message = ", ".join(message_parts) if message_parts else "No changes"
 
-
-        # created_count = 0
-        # updated_count = 0
-
-        # for order_num, lines in orders_data.items():
-        #     order = self.env['asai.packaging.order'].search([('name','=', order_num)], limit=1)
-
-        #     line_commands = [(5,0,0)]
-        #     line_commands += [(0,0,line) for line in lines]
-
-        #     if order:
-        #         order.write({
-        #             'detail_ids': line_commands,
-        #             'status': 'in_progress',
-        #         })
-        #         updated_count += 1
-        #     else:
-        #         self.env['asai.packaging.order'].create({
-        #             'name': order_num,
-        #             'status': 'in_progress',
-        #             'detail_ids': [(0,0,line) for line in lines]
-        #         })
-        #         created_count += 1
-
-
-
-
-        # return {
-        #     'type': 'ir.actions.client',
-        #     'tag': 'reload',
-        # }
-        # return {
-        #     'type': 'ir.actions.client',
-        #     'tag': 'display_notification',
-        #     'params': {
-        #         'title': 'Success',
-        #         'message': f'Imported: {created_count} new, {updated_count} updated.',
-        #         'type': 'success',
-        #         'sticky': False,
-
-        #     }
-        # }
         return {
             'type': 'ir.actions.client',
             'tag': 'asai.packaging.reload_with_notification',
