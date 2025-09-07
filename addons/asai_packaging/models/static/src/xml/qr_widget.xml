@@ -1,0 +1,10 @@
+<template>
+    <t t-name="asai_packaging.QRScannerWidget">
+        <input type="text"
+            class="o_input"
+            t-ref="input"
+            t-att-placeholder="props.field ? props.field.placeholder : 'Scan QR...'"    
+            t-att-autofocus="true"
+            t-on-input="onChange"/>
+    </t>
+</template>
