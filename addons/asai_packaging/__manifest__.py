@@ -18,6 +18,8 @@
         'views/packaging_order_views.xml',
         'views/packaging_menu.xml',
         'views/packer_report_views.xml', 
+        'views/cancelled_report_views.xml', 
+        'views/packaging_label_template.xml',
         'views/packaging_cancel_views.xml',
     ],
     'assets': {
