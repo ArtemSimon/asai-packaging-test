@@ -16,9 +16,15 @@
     'data': [
         'security/ir.model.access.csv',
         'views/packaging_order_views.xml',
-        'views/packaging_cancel_views.xml',
         'views/packaging_menu.xml',
+        'views/packer_report_views.xml', 
+        'views/packaging_cancel_views.xml',
     ],
+    'assets': {
+    'web.assets_backend': [
+        'asai_packaging/static/src/js/reload_with_notification.js',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto-install': False,
