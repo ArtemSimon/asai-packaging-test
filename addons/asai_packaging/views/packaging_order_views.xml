@@ -29,6 +29,13 @@
                         <field name="status" widget="statusbar"/>
                     </group>
 
+<!-- 
+                    <div class='alert alert-info' style="margin: 10px 0;">
+                        <field name='csv_file' filename='csv_filename' widget='binary'/>
+                        <field name='csv_filename' invisible='1'/>
+                        <button name='action_csv_load' type='object' string='Import Csv' class='btm-primary'/>
+                    </div>
+                     -->
                     <!-- Поле для ТСД -->
                     <div class='alert alert info' style="margin: 10px 0;">
                         <field name='scan_code' placeholder='Сканируйте QR-код...' autofocus="true"/>
@@ -39,6 +46,7 @@
                         <h4>Cause for Cancellation:</h4>
                         <field name="cancel_cause" readonly="1"/>
                     </div>
+                    
                     <notebook>
                         <page string="Product Lines">
                             <field name="detail_ids" nolabel="1">

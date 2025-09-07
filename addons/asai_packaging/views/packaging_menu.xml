@@ -13,4 +13,36 @@
               name="Manage Orders"
               parent="menu_packaging_orders"
               action="action_packaging_orders"/>
+
+              
+    <record id="view_packaging_import_wizard" model="ir.ui.view">
+        <field name="name">asai.packaging.import.wizard.form</field>
+        <field name="model">asai.packaging.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Production Job">
+                <p>Upload a CSV file with multiple packaging orders.</p>
+                <group>
+                    <field name="csv_file" filename="csv_filename" widget="binary"/>
+                    <field name="csv_filename" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="action_import" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+   <!-- Действие: импорт CSV -->
+    <record id="action_packaging_import_wizard" model="ir.actions.act_window">
+        <field name="name">Import CSV</field>
+        <field name="res_model">asai.packaging.import.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Кнопка: импорт в меню -->
+    <menuitem id="menu_packaging_import"
+              name="Import CSV"
+              parent="menu_packaging_root"
+              action="action_packaging_import_wizard"/>
 </odoo>
