@@ -7,36 +7,35 @@
             <form string="Packaging Order">
                 <header>
                     <!-- Кнопка: Начать упаковку (видна только в статусе draft) -->
-                    <button name="action_start" type="object" string="Start Packing"
-                            invisible="status != 'draft'"/>
+                    <button name="action_start" type="object" string="Start Packing" 
+                            icon="fa-play" invisible="status != 'draft'"/>
 
                     <!-- Кнопка: Завершить упаковку (видна только если in_progress и всё упаковано) -->
                     <button name="action_done" type="object" string="Finish Packing" class="btn-primary"
-                            invisible="status != 'in_progress' or not is_complete"/>
+                            icon="fa-check" invisible="status != 'in_progress' or not is_complete"/>
 
                     <!-- Кнопка: Сбросить (видна только если не draft) -->
                     <button name="action_reset" type="object" string="Reset" class="btn-secondary"
-                            invisible="status == 'draft'"/>
+                            icon="fa-undo" invisible="status == 'draft'"/>
 
                     <!-- Кнопка: Отменить заказ -->
                     <button name="action_open_cancel" type="object" string="Cancel Order" class="btn-danger"
-                            invisible="status in ('done', 'cancelled')"/>
+                            icon="fa-times" invisible="status in ('done', 'cancelled')"/>
                 </header>
                 <sheet>
                     <group>
                         <field name="name"/>
                         <field name="packer_name"/>
-                        <field name="status" widget="statusbar"/>
+                        <field name="status" widget="statusbar">
+                            <attribute name="colors">
+                                <item name="draft" color="gray"/>
+                                <item name="in_progress" color="blue"/>
+                                <item name="done" color="green"/>
+                                <item name="cancelled" color="red"/>
+                            </attribute>
+                        </field>
                     </group>
-
-<!-- 
-                    <div class='alert alert-info' style="margin: 10px 0;">
-                        <field name='csv_file' filename='csv_filename' widget='binary'/>
-                        <field name='csv_filename' invisible='1'/>
-                        <button name='action_csv_load' type='object' string='Import Csv' class='btm-primary'/>
-                    </div>
-                     -->
-                    <!-- Поле для ТСД -->
+                   
                     <div class='alert alert info' style="margin: 10px 0;">
                         <field name='scan_code' placeholder='Сканируйте QR-код...' autofocus="true"/>
                         <button name='action_scan_code' type='object' string='Scan' class='btm-primary' nolabel="1"/>
