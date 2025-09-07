@@ -1,3 +1,6 @@
+import base64
+import csv
+from io import StringIO
 from odoo import models, fields, api
 from odoo.exceptions import UserError
 import logging
@@ -22,8 +25,6 @@ class PackagingOrder(models.Model):
         "Scan QR Code",
         help="Сканируйте QR-код детали — система автоматически увеличит счётчик"
     )
-
-
 
     detail_ids = fields.One2many(
         'asai.packaging.detail',
@@ -65,6 +66,18 @@ class PackagingOrder(models.Model):
             for line in self.detail_ids
         )
     
+    @api.model
+    def action_import_csv(self):
+        """Вощращает действие для открытия Wizard"""
+        return {
+            'name': 'Import Production Order from Csv',
+            'type': 'ir.actions.act_window',
+            'res_model': 'asai.packaging.import',
+            'view_mode': 'form',
+            'target': 'new',
+            'view_id': False,
+        }
+
     def action_open_cancel(self):
         """Открывает Wizard для отмены заказа"""
         self.ensure_one()
@@ -125,7 +138,60 @@ class PackagingOrder(models.Model):
                 'type': 'success',
                 'sticky': False,
             }
-}, {
-    'type': 'ir.actions.client',
-    'tag': 'refresh'
-}
+        }
+        # }, {
+        #     'type': 'ir.actions.client',
+        #     'tag': 'refresh'
+        # }
+
+    
+#     def action_csv_load(self):
+#         self.ensure_one()
+#         if not self.csv_file or not self.csv_filename:
+#             raise UserError("Пожалуйста, загрузите CSV-файл.")
+        
+#         # Проверка расширения файла 
+#         if not self.csv_filename.endswith('.csv'):
+#             raise UserError("Поддерживаются только CSV-файлы.")
+        
+#         # Декодируем файл
+#         try:
+#             details_order = base64.b64decode(self.csv_file).decode('utf-8')
+#             file_load = StringIO(details_order)
+#             reader = csv.DictReader(file_load)
+#         except Exception as e:
+#             raise UserError(f"Ошибка чтения CSV-файла {str(e)}")
+        
+
+#         lines = []
+#         for row in reader:
+#             lines.append((0,0, {
+#                 "product_name": row.get('product_name', '').strip(),
+#                 "dimensions": row.get('dimensions', '').strip(),
+#                 "qty_required": float(row.get('qty_required',1)),
+#                 "qr_code": row.get('qr_code', '').strip(),
+#                 "qty_scan_add": float(row.get('qty_scan_add', 1)),
+#         }))
+        
+        
+#         # Очищаем старые строки и добавляем новые
+#         self.detail_ids.unlink()
+#         self.write({"detail_ids": lines})
+
+#         # Меняем статус 
+#         self.status = "in_progress"
+
+
+#         return {
+#             'type': 'ir.actions.client',
+#             'tag': 'display_notification',
+#             'params': {
+#                 'title': 'Success',
+#                 'message': f'Imported {len(lines)} items from CSV.', 
+#                 'type': 'success',
+#                 'sticky': False,                            
+#             }
+#         },{
+#     'type': 'ir.actions.client',
+#     'tag': 'refresh'
+# }
