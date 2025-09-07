@@ -1,0 +1,34 @@
+<odoo>
+    <!-- Список -->
+    <record id="view_cancelled_report_tree" model="ir.ui.view">
+        <field name="name">asai.cancelled.report.list</field>
+        <field name="model">asai.cancelled.report</field>
+        <field name="arch" type="xml">
+            <list string="Cancelled Orders - Missing Details">
+                <field name="order_name"/>
+                <field name="packer_name"/>
+                <field name="product_name"/>
+                <field name="dimensions"/>
+                <field name="qty_required"/>
+                <field name="qty_packed"/>
+                <field name="qty_missing"/>
+                <field name="cancel_cause"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Действие -->
+    <record id="action_cancelled_report" model="ir.actions.act_window">
+        <field name="name">Cancelled Orders Report</field>
+        <field name="res_model">asai.cancelled.report</field>
+        <field name="view_mode">list</field>
+        <field name="help">List of cancelled orders and missing parts for re-production.</field>
+    </record>
+
+    <!-- Меню -->
+    <menuitem 
+        id="menu_cancelled_report"
+        name="Cancelled Orders"
+        parent="menu_packaging_root"
+        action="action_cancelled_report"/>
+</odoo>
