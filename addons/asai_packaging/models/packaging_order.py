@@ -3,8 +3,7 @@ import csv
 from io import StringIO
 from odoo import models, fields, api
 from odoo.exceptions import UserError
-import logging
-_logger = logging.getLogger(__name__)
+
 
 class PackagingOrder(models.Model):
     _name = 'asai.packaging.order'
@@ -38,11 +37,15 @@ class PackagingOrder(models.Model):
 
     # Кнопка: Завершить упаковку (только если всё упаковано)
     def action_done(self):
-        if self._is_complete():
-            self.write({'status': 'done'})
-        else:
-            raise ValueError("Cannot complete: not all items are packed!")
+        self.ensure_one()
+        if not all(line.qty_packed >= line.qty_required for line in self.detail_ids):
+            raise UserError('Нельзя завершить: не все детали упакованы')
+        
 
+        self.status = 'done'
+
+        return self.env.ref('asai_packaging.action_report_shipping_label').report_action(self,config=False)
+    
     # Кнопка: Сбросить
     def action_reset(self):
         self.write({'status': 'draft'})
@@ -96,14 +99,7 @@ class PackagingOrder(models.Model):
         """Обработка скана QR Code"""
         self.ensure_one()
 
-        _logger.info("✅ action_scan_code вызван")  # 🔍
-        _logger.info("Scan code: %s", self.scan_code)  # 🔍
-
-        _logger.info("Количество detail_ids: %s", len(self.detail_ids))
-        _logger.info("Сами детали: %s", self.detail_ids.ids)
-
         if not self.scan_code:
-            _logger.warning("❌ scan_code пустой")  # 🔍
             return
         
         detail = self.detail_ids.filtered(lambda d:d.qr_code == self.scan_code)
@@ -139,3 +135,4 @@ class PackagingOrder(models.Model):
                 'sticky': False,
             }
         }
+        

@@ -105,7 +105,6 @@ class PackagingImport(models.TransientModel):
             'type': 'ir.actions.client',
             'tag': 'asai.packaging.reload_with_notification',
             'params': {
-                # 'message': f'Imported: {created_count} new, {updated_count} updated.'
                 'message': f'Imported: {message}'
             }
         }

@@ -15,7 +15,3 @@ class PackagingCancel(models.TransientModel):
             'cancel_cause': self.cancel_cause
         })
         return {'type': 'ir.actions.act_window_close'}
-    
-    def action_cancel(self):
-        """Закрывает окно без сохранения"""
-        return {'type': 'ir.actions.act_window_close'}
