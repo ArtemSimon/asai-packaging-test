@@ -1,0 +1,34 @@
+<odoo>
+    <record id="report_shipping_label" model="ir.ui.view">
+        <field name="name">asai.packaging.report_shipping_label</field>
+        <field name="type">qweb</field>
+        <field name="arch" type="xml">
+            <t t-name="asai_packaging.report_shipping_label">
+                <t t-call="web.html_container">
+                    <t t-call="web.external_layout">
+                        <div class="page" style="text-align: center; padding: 20px;">
+                            <h2>Упаковка завершена</h2>
+                            <p><strong>Заказ:</strong> <t t-esc="docs[0].name"/></p>
+                            <p><strong>Оператор:</strong> <t t-esc="docs[0].packer_name"/></p>
+                            <p><strong>Дата:</strong> 
+                                <t t-esc="docs[0].write_date.strftime('%d.%m.%Y %H:%M') if docs[0].write_date else ''"/>
+                            </p>
+                            <div style="margin: 20px 0;">
+                                <img t-att-src="'/report/barcode/QR/%s' % docs[0].name" style="width: 120px; height: 120px;"/>
+                            </div>
+                            <small>Сканируйте для просмотра деталей</small>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </field>
+    </record>
+
+
+    <record id="action_report_shipping_label" model="ir.actions.report">
+        <field name="name">Печать этикетки</field>
+        <field name="model">asai.packaging.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">asai_packaging.report_shipping_label</field>
+    </record>
+</odoo>
