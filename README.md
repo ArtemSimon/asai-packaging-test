@@ -7,14 +7,13 @@
 
 ## 🎥 Демонстрация
 
-Смотрите полное видео демонстрации системы:  
-👉 [2025-09-07 22-01-54.webm](https://github.com/user-attachments/assets/db6407ba-0ee6-4d36-87f2-601b07cb220c)
+Смотрите полное видео демонстрации системы:
 
 Данное видео демонстрирует графический интерфейс:
-👉 https://drive.google.com/file/d/1IIyU81PN0wdRk4eXhUc88NL2V34nNu-c/view?usp=sharing
+👉 [2025-09-08 17-45-07.webm](https://drive.google.com/file/d/1IIyU81PN0wdRk4eXhUc88NL2V34nNu-c/view?usp=sharing)
 
 Данное видео демонстрирует основные моменты в коде:
-👉 [<video controls src="2025-09-08 17-45-07.webm" title="Title"></video>](https://drive.google.com/file/d/1Qf56SueLzzn5VHsvgS4VS4nPjI8mdZoU/view?usp=sharing)
+👉 [2025-09-08 17-45-07.webm](https://drive.google.com/file/d/1Qf56SueLzzn5VHsvgS4VS4nPjI8mdZoU/view?usp=sharing)
 
 
 > В видео показано:
